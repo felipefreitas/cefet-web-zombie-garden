@@ -89,5 +89,17 @@ router.post('/new/', function(req, res){
 //   2. Redirecionar para a rota de listagem de pessoas
 //      - Em caso de sucesso do INSERT, colocar uma mensagem feliz
 //      - Em caso de erro do INSERT, colocar mensagem vermelhinha
+router.delete('/:id', function(req, res){
+  let personId = req.params.id;
+
+  db.query('DELETE FROM person WHERE id=' + personId, function(err, result){
+    if (err) {
+      req.flash('error', 'Erro desconhecido. Descrição: ' + err);
+    } else {
+      req.flash('success', 'A pessoa foi removida.');
+    }
+    res.redirect('/people');
+  });
+});
 
 module.exports = router;
