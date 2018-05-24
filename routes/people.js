@@ -65,7 +65,22 @@ router.get('/new/', function(req, res) {
 //   2. Redirecionar para a rota de listagem de pessoas
 //      - Em caso de sucesso do INSERT, colocar uma mensagem feliz
 //      - Em caso de erro do INSERT, colocar mensagem vermelhinha
+router.post('/new/', function(req, res){
+  let person = {
+    name: req.body.name,
+    alive: 1,
+    eatenBy: null
+  };
 
+  db.query('INSERT INTO person SET ?', person, function(err, result){
+    if (err) {
+      req.flash('error', 'Erro desconhecido. Descrição: ' + err);
+    } else {
+      req.flash('success', 'A pessoa foi inserida com sucesso.');
+    }
+    res.redirect('/people');
+  });
+});
 
 /* DELETE uma pessoa */
 // Exercício 2: IMPLEMENTAR AQUI
